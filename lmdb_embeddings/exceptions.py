@@ -1,0 +1,4 @@
+
+
+class MissingWordError(Exception):
+    pass
