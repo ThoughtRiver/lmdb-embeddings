@@ -45,3 +45,6 @@ writer = LmdbEmbeddingsWriter(
 ```
 pytest
 ```
+
+## Customisation
+By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach such as [msgpack](https://msgpack.org/index.html). Simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
