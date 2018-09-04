@@ -3,6 +3,8 @@ Query word vectors (embeddings) very quickly with very little querying time over
 
 Inspired by [Delft](https://github.com/kermitt2/delft). As explained in their readme, this approach permits us to have the pre-trained embeddings immediately "warm" (no load time), to free memory and to use any number of embeddings similtaneously with a very negligible impact on runtime when using SSD.
 
+For instance, in a traditional approach `glove-840B` takes around 2 minutes to load and 4GB in memory. Managed with LMDB `glove-840B`, can be accessed immediately and takes only a couple MB in memory, for a negligible impact on runtime (around 1% slower).
+
 ## Reading vectors
 
 ```python
@@ -19,7 +21,9 @@ except MissingWordError:
 ```
 
 ## Writing vectors
-An example to write an LMDB vector file from the gensim. Any iterator that yeilds word and vector pairs is supported.
+An example to write an LMDB vector file from a gensim model. As any iterator that yields word and vector pairs is supported, if you have the vectors in an alternative format then it is just a matter of altering the `iter_embeddings` method below appropriately.
+
+I will be writing a CLI interface to convert standard formats soon.
 
 ```python
 from gensim.models.keyedvectors import KeyedVectors
