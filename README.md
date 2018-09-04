@@ -25,20 +25,21 @@ An example to write an LMDB vector file from the gensim. Any iterator that yeild
 from gensim.models.keyedvectors import KeyedVectors
 from lmdb_embeddings.writer import LmdbEmbeddingsWriter
 
-GOOGLE_NEWS_PATH = 'GoogleNews-vectors-negative300.w2v'
-OUTPUT_DIR = 'GoogleNews-vectors-negative300'
+OUTPUT_DATABASE_FOLDER = 'GoogleNews-vectors-negative300'
 
-gensim_model = KeyedVectors.load(GOOGLE_NEWS_PATH, mmap = 'r')
+gensim_model = KeyedVectors.load('GoogleNews-vectors-negative300.w2v', mmap = 'r')
 
+# Define an iterator to yield the vectors.
 def iter_embeddings():
     for word in tqdm.tqdm(gensim_model.vocab.keys()):
         yield word, gensim_model[word]
 
-print('Writing vectors to a LMDB database...')
-
+# Write the vectors to disk.
 writer = LmdbEmbeddingsWriter(
     iter_embeddings()
-).write(OUTPUT_DIR)
+).write(OUTPUT_DATABASE_FOLDER)
+
+# These vectors can now be loaded with the LmdbEmbeddingsReader.
 ```
 
 ## Running tests
