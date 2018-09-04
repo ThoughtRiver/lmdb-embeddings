@@ -11,7 +11,7 @@ For instance, in a traditional approach `glove-840B` takes around 2 minutes to l
 from lmdb_embeddings.reader import LmdbEmbeddingsReader
 from lmdb_embeddings.exceptions import MissingWordError
 
-embeddings = LmdbEmbeddingsReader('/path/to/word/vectors/GoogleNews)
+embeddings = LmdbEmbeddingsReader('/path/to/word/vectors/eg/GoogleNews-vectors-negative300')
 
 try:
   vector = embeddings.get_word_vector('google')
