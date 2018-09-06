@@ -3,7 +3,7 @@ Query word vectors (embeddings) very quickly with very little querying time over
 
 Inspired by [Delft](https://github.com/kermitt2/delft). As explained in their readme, this approach permits us to have the pre-trained embeddings immediately "warm" (no load time), to free memory and to use any number of embeddings similtaneously with a very negligible impact on runtime when using SSD.
 
-For instance, in a traditional approach `glove-840B` takes around 2 minutes to load and 4GB in memory. Managed with LMDB `glove-840B`, can be accessed immediately and takes only a couple MB in memory, for a negligible impact on runtime (around 1% slower).
+For instance, in a traditional approach `glove-840B` takes around 2 minutes to load and 4GB in memory. Managed with LMDB, `glove-840B` can be accessed immediately and takes only a couple MB in memory, for a negligible impact on runtime (around 1% slower).
 
 ## Reading vectors
 
@@ -35,7 +35,7 @@ gensim_model = KeyedVectors.load('GoogleNews-vectors-negative300.w2v', mmap = 'r
 
 # Define an iterator to yield the vectors.
 def iter_embeddings():
-    for word in tqdm.tqdm(gensim_model.vocab.keys()):
+    for word in gensim_model.vocab.keys():
         yield word, gensim_model[word]
 
 # Write the vectors to disk.
