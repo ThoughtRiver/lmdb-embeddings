@@ -62,7 +62,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_reading_embeddings(self, folder_path):
         """ Ensure we can retrieve embeddings from
-        a database 
+        the database.
 
         :return void
         """
@@ -78,8 +78,9 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_missing_word_error(self, folder_path):
-        """ Ensure we can retrieve embeddings from
-        a database 
+        """ Ensure a MissingWordError exception is 
+        raised if the word does not exist in the 
+        database.
 
         :return void
         """
