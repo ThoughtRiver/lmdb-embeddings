@@ -39,7 +39,7 @@ gensim_model = KeyedVectors.load_word2vec_format(GOOGLE_NEWS_PATH, binary = True
 
 
 def iter_embeddings():
-    for word in tqdm.tqdm(gensim_model.vocab.keys()):
+    for word in gensim_model.vocab.keys():
         yield word, gensim_model[word]
 
 print('Writing vectors to a LMDB database...')
