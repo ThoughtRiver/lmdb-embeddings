@@ -29,16 +29,21 @@ I will be writing a CLI interface to convert standard formats soon.
 from gensim.models.keyedvectors import KeyedVectors
 from lmdb_embeddings.writer import LmdbEmbeddingsWriter
 
+
+GOOGLE_NEWS_PATH = 'GoogleNews-vectors-negative300.bin.gz'
 OUTPUT_DATABASE_FOLDER = 'GoogleNews-vectors-negative300'
 
-gensim_model = KeyedVectors.load('GoogleNews-vectors-negative300.w2v', mmap = 'r')
 
-# Define an iterator to yield the vectors.
+print('Loading gensim model...')
+gensim_model = KeyedVectors.load_word2vec_format(GOOGLE_NEWS_PATH, binary = True)
+
+
 def iter_embeddings():
-    for word in gensim_model.vocab.keys():
+    for word in tqdm.tqdm(gensim_model.vocab.keys()):
         yield word, gensim_model[word]
 
-# Write the vectors to disk.
+print('Writing vectors to a LMDB database...')
+
 writer = LmdbEmbeddingsWriter(
     iter_embeddings()
 ).write(OUTPUT_DATABASE_FOLDER)
