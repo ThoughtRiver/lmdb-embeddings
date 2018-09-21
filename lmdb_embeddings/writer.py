@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import lmdb
 from lmdb_embeddings.serializers import PickleSerializer
+import sys
 
 
 class LmdbEmbeddingsWriter:
@@ -45,12 +46,22 @@ class LmdbEmbeddingsWriter:
         environment = lmdb.open(path, map_size = self._map_size)
         transaction = environment.begin(write = True)
 
+        ERROR_COUNT = 0
         for i, (word, vector) in enumerate(self.embeddings_generator):
-
-            transaction.put(word.encode(encoding = 'UTF-8'), self.serializer(vector))
+            try:
+                transaction.put(word.encode(encoding = 'UTF-8'), self.serializer(vector))
+            except :
+                print(sys.exc_info()[0])
+                print( "Ignoring word/vectors, Continuing Write operation")
+                # helps to ignore errors in some word/vectors and
+                # do not allow operation to fail because of one word/vectors in millions
+                ERROR_COUNT = ERROR_COUNT + 1
 
             if i % self._batch_size == 0:
                 transaction.commit()
                 transaction = environment.begin(write = True)
+
+        # let user know about total error
+        print("Total Reported word/vector having errors : ", ERROR_COUNT)
 
         transaction.commit()
