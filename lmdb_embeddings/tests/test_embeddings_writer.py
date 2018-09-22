@@ -93,3 +93,15 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
         with pytest.raises(exceptions.MissingWordError):
             reader.get_word_vector('unknown')
+
+    @LmdbEmbeddingsTest.make_temporary_folder
+    def test_word_too_long(self, folder_path):
+        """ Ensure we do not get an exception if
+        attempting to write a word longer than
+        LMDB's max key size,
+
+        :return void
+        """
+        LmdbEmbeddingsWriter([
+            ('a' * 1000, np.ndarray(10)),
+        ]).write(folder_path)

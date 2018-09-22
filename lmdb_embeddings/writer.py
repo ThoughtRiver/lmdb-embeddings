@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-
+import logging
 import lmdb
 from lmdb_embeddings.serializers import PickleSerializer
 
@@ -43,14 +43,30 @@ class LmdbEmbeddingsWriter:
         :return void
         """
         environment = lmdb.open(path, map_size = self._map_size)
+
         transaction = environment.begin(write = True)
 
         for i, (word, vector) in enumerate(self.embeddings_generator):
 
-            transaction.put(word.encode(encoding = 'UTF-8'), self.serializer(vector))
+            encoded_word = word.encode(encoding = 'UTF-8')
+
+            if self._word_too_long(encoded_word, environment):
+                logging.warning('[%s] is too long to use as an LMDB key.' % word)
+                continue
+
+            transaction.put(encoded_word, self.serializer(vector))
 
             if i % self._batch_size == 0:
                 transaction.commit()
                 transaction = environment.begin(write = True)
 
         transaction.commit()
+
+    @staticmethod
+    def _word_too_long(encoded_word, environment):
+        """ Is a given encoded word too long for the LMDB
+        environment?
+
+        :return bool
+        """
+        return len(encoded_word) > environment.max_key_size()
