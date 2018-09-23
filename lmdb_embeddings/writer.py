@@ -51,7 +51,9 @@ class LmdbEmbeddingsWriter:
             encoded_word = word.encode(encoding = 'UTF-8')
 
             if self._word_too_long(encoded_word, environment):
-                logging.warning('[%s] is too long to use as an LMDB key.' % word)
+                logging.getLogger(__name__).warning(
+                    '[%s] is too long to use as an LMDB key.' % word
+                )
                 continue
 
             transaction.put(encoded_word, self.serializer(vector))
