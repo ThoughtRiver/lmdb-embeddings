@@ -109,8 +109,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_msgpack_serialization(self, folder_path):
-        """ Ensure we can retrieve embeddings from
-        the database.
+        """ Ensure we can save and retrieve embeddings
+        serialized with msgpack.
 
         :return void
         """
