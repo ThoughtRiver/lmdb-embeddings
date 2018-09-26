@@ -18,9 +18,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-
 import pickle
 import pickletools
+
+import msgpack
+import msgpack_numpy
 
 
 class PickleSerializer:
@@ -42,3 +44,28 @@ class PickleSerializer:
         :return np.array
         """
         return pickle.loads(serialized_vector)
+
+
+class MsgpackSerializer:
+
+    @staticmethod
+    def serialize(vector):
+        """ Serializer a vector using msgpack.
+
+        :return bytes
+        """
+        return msgpack.packb(
+            vector,
+            default = msgpack_numpy.encode
+        )
+
+    @staticmethod
+    def unserialize(serialized_vector):
+        """ Unserialize a vector using msgpack.
+
+        :return np.array
+        """
+        return msgpack.unpackb(
+            serialized_vector,
+            object_hook = msgpack_numpy.decode
+        )
