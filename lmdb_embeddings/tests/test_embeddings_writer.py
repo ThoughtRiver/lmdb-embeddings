@@ -23,8 +23,9 @@ import os
 import pytest
 import numpy as np
 from lmdb_embeddings import exceptions
-from lmdb_embeddings.writer import LmdbEmbeddingsWriter
 from lmdb_embeddings.reader import LmdbEmbeddingsReader
+from lmdb_embeddings.writer import LmdbEmbeddingsWriter
+from lmdb_embeddings.serializers import MsgpackSerializer
 from lmdb_embeddings.tests.base import LmdbEmbeddingsTest
 
 
@@ -38,8 +39,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
         :return void
         """
         LmdbEmbeddingsWriter([
-            ('the', np.ndarray(10)),
-            ('is', np.ndarray(10))
+            ('the', np.random.rand(10)),
+            ('is', np.random.rand(10))
         ]).write(folder_path)
 
         assert os.listdir(folder_path)
@@ -51,7 +52,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
         :return void
         """
-        embeddings_generator = ((str(i), np.ndarray(10)) for i in range(10))
+        embeddings_generator = ((str(i), np.random.rand(10)) for i in range(10))
 
         LmdbEmbeddingsWriter(
             embeddings_generator
@@ -66,10 +67,10 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
         :return void
         """
-        the_vector = np.ndarray(10)
+        the_vector = np.random.rand(10)
         LmdbEmbeddingsWriter([
             ('the', the_vector),
-            ('is', np.ndarray(10))
+            ('is', np.random.rand(10))
         ]).write(folder_path)
 
         assert LmdbEmbeddingsReader(folder_path).get_word_vector(
@@ -85,8 +86,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
         :return void
         """
         LmdbEmbeddingsWriter([
-            ('the', np.ndarray(10)),
-            ('is', np.ndarray(10))
+            ('the', np.random.rand(10)),
+            ('is', np.random.rand(10))
         ]).write(folder_path)
 
         reader = LmdbEmbeddingsReader(folder_path)
@@ -103,5 +104,28 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
         :return void
         """
         LmdbEmbeddingsWriter([
-            ('a' * 1000, np.ndarray(10)),
+            ('a' * 1000, np.random.rand(10)),
         ]).write(folder_path)
+
+    @LmdbEmbeddingsTest.make_temporary_folder
+    def test_msgpack_serialization(self, folder_path):
+        """ Ensure we can save and retrieve embeddings
+        serialized with msgpack.
+
+        :return void
+        """
+        the_vector = np.random.rand(10)
+
+        LmdbEmbeddingsWriter([
+                ('the', the_vector),
+                ('is', np.random.rand(10))
+            ],
+            serializer = MsgpackSerializer.serialize
+        ).write(folder_path)
+
+        assert LmdbEmbeddingsReader(
+            folder_path,
+            unserializer = MsgpackSerializer.unserialize
+        ).get_word_vector(
+            'the'
+        ).tolist() == the_vector.tolist()

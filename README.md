@@ -51,10 +51,32 @@ writer = LmdbEmbeddingsWriter(
 # These vectors can now be loaded with the LmdbEmbeddingsReader.
 ```
 
+## Customisation
+By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach - simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
+
+A [msgpack](https://msgpack.org/index.html) serializer is included and can be used in the same way.
+
+```python
+from lmdb_embeddings.writer import LmdbEmbeddingsWriter
+from lmdb_embeddings.serializers import MsgpackSerializer
+
+writer = LmdbEmbeddingsWriter(
+    iter_embeddings(),
+    serializer = MsgpackSerializer.serialize
+).write(OUTPUT_DATABASE_FOLDER)
+```
+
+```python
+from lmdb_embeddings.reader import LmdbEmbeddingsReader
+from lmdb_embeddings.serializers import MsgpackSerializer
+
+reader = LmdbEmbeddingsReader(
+    OUTPUT_DATABASE_FOLDER,
+    unserializer = MsgpackSerializer.unserialize
+)
+```
+
 ## Running tests
 ```
 pytest
 ```
-
-## Customisation
-By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach such as [msgpack](https://msgpack.org/index.html). Simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
