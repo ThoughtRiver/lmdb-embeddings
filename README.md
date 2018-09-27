@@ -51,11 +51,6 @@ writer = LmdbEmbeddingsWriter(
 # These vectors can now be loaded with the LmdbEmbeddingsReader.
 ```
 
-## Running tests
-```
-pytest
-```
-
 ## Customisation
 By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach - simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
 
@@ -79,4 +74,9 @@ reader = LmdbEmbeddingsReader(
     'GoogleNews-vectors-negative300',
     unserializer = MsgpackSerializer.unserialize
 )
+```
+
+## Running tests
+```
+pytest
 ```
