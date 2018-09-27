@@ -71,7 +71,7 @@ from lmdb_embeddings.reader import LmdbEmbeddingsReader
 from lmdb_embeddings.serializers import MsgpackSerializer
 
 reader = LmdbEmbeddingsReader(
-    'GoogleNews-vectors-negative300',
+    OUTPUT_DATABASE_FOLDER,
     unserializer = MsgpackSerializer.unserialize
 )
 ```
