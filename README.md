@@ -1,3 +1,5 @@
+![tr_logo_cmyk_tr_logo_cmyk](https://user-images.githubusercontent.com/10864294/29792093-382146cc-8c37-11e7-9e70-6f71b3d0800b.png)
+
 # LMDB Embeddings
 Query word vectors (embeddings) very quickly with very little querying time overhead and far less memory usage than gensim or other equivalent solutions. This is made possible by [Lightning Memory-Mapped Database](https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database).
 
