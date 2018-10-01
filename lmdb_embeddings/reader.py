@@ -35,6 +35,7 @@ class LmdbEmbeddingsReader:
         self.environment = lmdb.open(
             path,
             readonly = True,
+            lock=True,
             max_readers = 2048,
             max_spare_txns = 2
         )
