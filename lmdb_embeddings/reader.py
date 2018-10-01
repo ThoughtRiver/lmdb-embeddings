@@ -26,7 +26,7 @@ from lmdb_embeddings.serializers import PickleSerializer
 
 class LmdbEmbeddingsReader:
 
-    def __init__(self, path, unserializer = PickleSerializer.unserialize):
+    def __init__(self, path, unserializer = PickleSerializer.unserialize, lock = True):
         """ Constructor.
 
         :return void
@@ -35,7 +35,7 @@ class LmdbEmbeddingsReader:
         self.environment = lmdb.open(
             path,
             readonly = True,
-            lock=True,
+            lock=lock,
             max_readers = 2048,
             max_spare_txns = 2
         )
