@@ -6,7 +6,7 @@ from setuptools import find_packages
 
 setup(
     name = 'lmdb_embeddings',
-    version = '0.1.0',
+    version = '0.2.0',
     description = 'Fast querying of word embeddings using the LMDB "Lightning" Database.',
     author = 'Dom Hudson',
     author_email = 'dom.hudson@thoughtriver.com',
