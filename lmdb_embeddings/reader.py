@@ -26,15 +26,16 @@ from lmdb_embeddings.serializers import PickleSerializer
 
 class LmdbEmbeddingsReader:
 
-    def __init__(self, path, unserializer = PickleSerializer.unserialize):
+    def __init__(self, path, unserializer = PickleSerializer.unserialize, lock = True):
         """ Constructor.
-
+        lock = False if you have readonly access to db location else True
         :return void
         """
         self.unserializer = unserializer
         self.environment = lmdb.open(
             path,
             readonly = True,
+            lock=lock,
             max_readers = 2048,
             max_spare_txns = 2
         )
