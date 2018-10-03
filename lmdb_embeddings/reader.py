@@ -26,7 +26,7 @@ from lmdb_embeddings.serializers import PickleSerializer
 
 class LmdbEmbeddingsReader:
 
-    def __init__(self, path, unserializer = PickleSerializer.unserialize):
+    def __init__(self, path, unserializer = PickleSerializer.unserialize, **kwargs):
         """ Constructor.
 
         :return void
@@ -36,7 +36,9 @@ class LmdbEmbeddingsReader:
             path,
             readonly = True,
             max_readers = 2048,
-            max_spare_txns = 2
+            max_spare_txns = 2,
+            lock = kwargs.pop('lock', False),
+            **kwargs
         )
 
     def get_word_vector(self, word):
