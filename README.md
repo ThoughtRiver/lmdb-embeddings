@@ -7,6 +7,11 @@ Inspired by [Delft](https://github.com/kermitt2/delft). As explained in their re
 
 For instance, in a traditional approach `glove-840B` takes around 2 minutes to load and 4GB in memory. Managed with LMDB, `glove-840B` can be accessed immediately and takes only a couple MB in memory, for a negligible impact on runtime (around 1% slower).
 
+## Installation
+```bash
+pip install lmdb_embeddings
+```
+
 ## Reading vectors
 
 ```python
