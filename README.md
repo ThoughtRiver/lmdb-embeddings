@@ -9,7 +9,7 @@ For instance, in a traditional approach `glove-840B` takes around 2 minutes to l
 
 ## Installation
 ```bash
-pip install lmdb_embeddings
+pip install lmdb-embeddings
 ```
 
 ## Reading vectors
