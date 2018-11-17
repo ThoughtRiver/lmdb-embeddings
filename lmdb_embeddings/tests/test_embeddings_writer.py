@@ -79,8 +79,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_missing_word_error(self, folder_path):
-        """ Ensure a MissingWordError exception is 
-        raised if the word does not exist in the 
+        """ Ensure a MissingWordError exception is
+        raised if the word does not exist in the
         database.
 
         :return void

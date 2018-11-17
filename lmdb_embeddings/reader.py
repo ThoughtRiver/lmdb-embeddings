@@ -43,7 +43,7 @@ class LmdbEmbeddingsReader:
 
     def get_word_vector(self, word):
         """ Fetch a word from the LMDB database.
-        
+
         :raises lmdb_embeddings.exceptions.MissingWordError
         :return np.array
         """

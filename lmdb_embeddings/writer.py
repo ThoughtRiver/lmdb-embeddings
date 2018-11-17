@@ -26,7 +26,7 @@ from lmdb_embeddings.serializers import PickleSerializer
 class LmdbEmbeddingsWriter:
 
     _batch_size = 1024
-    _map_size = 100 * 1024 * 1024 * 1024 
+    _map_size = 100 * 1024 * 1024 * 1024
 
     def __init__(self, embeddings_generator, serializer = PickleSerializer.serialize):
         """ Constructor.
