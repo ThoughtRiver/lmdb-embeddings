@@ -22,10 +22,10 @@ from lmdb_embeddings.exceptions import MissingWordError
 embeddings = LmdbEmbeddingsReader('/path/to/word/vectors/eg/GoogleNews-vectors-negative300')
 
 try:
-  vector = embeddings.get_word_vector('google')
+    vector = embeddings.get_word_vector('google')
 except MissingWordError:
-  # 'google' is not in the database.
-  pass
+    # 'google' is not in the database.
+    pass
 ```
 
 ## Writing vectors
@@ -43,7 +43,7 @@ OUTPUT_DATABASE_FOLDER = 'GoogleNews-vectors-negative300'
 
 
 print('Loading gensim model...')
-gensim_model = KeyedVectors.load_word2vec_format(GOOGLE_NEWS_PATH, binary = True)
+gensim_model = KeyedVectors.load_word2vec_format(GOOGLE_NEWS_PATH, binary=True)
 
 
 def iter_embeddings():
@@ -70,7 +70,7 @@ from lmdb_embeddings.serializers import MsgpackSerializer
 
 writer = LmdbEmbeddingsWriter(
     iter_embeddings(),
-    serializer = MsgpackSerializer.serialize
+    serializer=MsgpackSerializer.serialize
 ).write(OUTPUT_DATABASE_FOLDER)
 ```
 
@@ -80,7 +80,7 @@ from lmdb_embeddings.serializers import MsgpackSerializer
 
 reader = LmdbEmbeddingsReader(
     OUTPUT_DATABASE_FOLDER,
-    unserializer = MsgpackSerializer.unserialize
+    unserializer=MsgpackSerializer.unserialize
 )
 ```
 
