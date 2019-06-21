@@ -102,4 +102,4 @@ Give a ⭐️ if this project helped you!
 ## License
 
 Copyright © 2019 [ThoughtRiver](https://github.com/thoughtriver). <br />
-This project is [GPL-3.0](https://github.com/ThoughtRiver/lmdb-embeddings/blob/master/LICENSE>) licensed.
+This project is [GPL-3.0](https://github.com/ThoughtRiver/lmdb-embeddings/blob/master/LICENSE) licensed.
