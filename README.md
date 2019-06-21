@@ -52,9 +52,7 @@ def iter_embeddings():
 
 print('Writing vectors to a LMDB database...')
 
-writer = LmdbEmbeddingsWriter(
-    iter_embeddings()
-).write(OUTPUT_DATABASE_FOLDER)
+writer = LmdbEmbeddingsWriter(iter_embeddings()).write(OUTPUT_DATABASE_FOLDER)
 
 # These vectors can now be loaded with the LmdbEmbeddingsReader.
 ```
@@ -88,3 +86,20 @@ reader = LmdbEmbeddingsReader(
 ```
 pytest
 ```
+
+## Author
+
+- Github: [DomHudson](https://github.com/DomHudson)
+
+## Contributing
+
+Contributions, issues and feature requests are welcome!
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## License
+
+Copyright © 2019 [ThoughtRiver](https://github.com/thoughtriver). <br />
+This project is [GPL-3.0](https://github.com/ThoughtRiver/lmdb-embeddings/blob/master/LICENSE>) licensed.
