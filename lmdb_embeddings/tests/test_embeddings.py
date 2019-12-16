@@ -1,5 +1,4 @@
 """
-        directory_path = str(tmp_path)
 LMDB Embeddings - Fast word vectors with little memory usage in Python.
 dom.hudson@thoughtriver.com
 
