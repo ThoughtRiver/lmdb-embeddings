@@ -33,8 +33,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_write_embeddings(self, folder_path):
-        """ Ensure we can write embeddings to disk
-        without error.
+        """ Ensure we can write embeddings to disk without error.
 
         :return void
         """
@@ -47,8 +46,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_write_embeddings_generator(self, folder_path):
-        """ Ensure we can a generator of embeddings to disk
-        without error.
+        """ Ensure we can a generator of embeddings to disk without error.
 
         :return void
         """
@@ -62,8 +60,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_reading_embeddings(self, folder_path):
-        """ Ensure we can retrieve embeddings from
-        the database.
+        """ Ensure we can retrieve embeddings from the database.
 
         :return void
         """
@@ -79,8 +76,7 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_missing_word_error(self, folder_path):
-        """ Ensure a MissingWordError exception is
-        raised if the word does not exist in the
+        """ Ensure a MissingWordError exception is raised if the word does not exist in the
         database.
 
         :return void
@@ -97,9 +93,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_word_too_long(self, folder_path):
-        """ Ensure we do not get an exception if
-        attempting to write a word longer than
-        LMDB's max key size,
+        """ Ensure we do not get an exception if attempting to write a word longer than LMDB's
+        maximum key size.
 
         :return void
         """
@@ -109,10 +104,9 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
 
     @LmdbEmbeddingsTest.make_temporary_folder
     def test_msgpack_serialization(self, folder_path):
-        """ Ensure we can save and retrieve embeddings
-        serialized with msgpack.
+        """ Ensure we can save and retrieve embeddings serialized with msgpack.
 
-        :return void
+        :return void:
         """
         the_vector = np.random.rand(10)
 
@@ -126,6 +120,4 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
         assert LmdbEmbeddingsReader(
             folder_path,
             unserializer = MsgpackSerializer.unserialize
-        ).get_word_vector(
-            'the'
-        ).tolist() == the_vector.tolist()
+        ).get_word_vector('the').tolist() == the_vector.tolist()

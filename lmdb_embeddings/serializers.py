@@ -31,17 +31,17 @@ class PickleSerializer:
     def serialize(vector):
         """ Serializer a vector using pickle.
 
-        :return bytes
+        :param np.array vector:
+        :return bytes:
         """
-        return pickletools.optimize(
-            pickle.dumps(vector, pickle.HIGHEST_PROTOCOL)
-        )
+        return pickletools.optimize(pickle.dumps(vector, pickle.HIGHEST_PROTOCOL))
 
     @staticmethod
     def unserialize(serialized_vector):
         """ Unserialize a vector using pickle.
 
-        :return np.array
+        :param bytes serialized_vector:
+        :return np.array:
         """
         return pickle.loads(serialized_vector)
 
@@ -52,20 +52,16 @@ class MsgpackSerializer:
     def serialize(vector):
         """ Serializer a vector using msgpack.
 
-        :return bytes
+        :param np.array vector:
+        :return bytes:
         """
-        return msgpack.packb(
-            vector,
-            default = msgpack_numpy.encode
-        )
+        return msgpack.packb(vector, default = msgpack_numpy.encode)
 
     @staticmethod
     def unserialize(serialized_vector):
         """ Unserialize a vector using msgpack.
 
-        :return np.array
+        :param bytes serialized_vector:
+        :return np.array:
         """
-        return msgpack.unpackb(
-            serialized_vector,
-            object_hook = msgpack_numpy.decode
-        )
+        return msgpack.unpackb(serialized_vector, object_hook = msgpack_numpy.decode)

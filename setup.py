@@ -16,7 +16,7 @@ def get_readme():
 
 setup(
     name = 'lmdb_embeddings',
-    version = '0.2.1',
+    version = '0.3.0',
     description = 'Fast querying of word embeddings using the LMDB "Lightning" Database.',
     license = 'GNU General Public License v3.0',
     long_description = get_readme(),
@@ -30,7 +30,12 @@ setup(
         'msgpack',
         'msgpack-numpy',
         'numpy',
-        'pytest',
-        'pytest-cov',
-    ]
+    ],
+    extras_require = {
+        'develop': [
+            'flake8',
+            'pytest',
+            'pytest-cov',
+        ]
+    },
 )
