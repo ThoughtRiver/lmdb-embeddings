@@ -108,7 +108,7 @@ class TestEmbeddings:
         """
         directory_path = str(tmp_path)
 
-        LmdbEmbeddingsWriter([('a' * 1000, np.random.rand(10)),]).write(directory_path)
+        LmdbEmbeddingsWriter([('a' * 1000, np.random.rand(10))]).write(directory_path)
 
     @pytest.mark.parametrize('reader_class', (LruCachedLmdbEmbeddingsReader, LmdbEmbeddingsReader))
     def test_msgpack_serialization(self, tmp_path, reader_class):
