@@ -3,6 +3,7 @@ import os
 from distutils.core import setup
 from setuptools import find_packages
 
+
 def get_readme():
     """ Get the package README as a string.
 
@@ -13,6 +14,7 @@ def get_readme():
 
     with open(readme_path) as f:
         return f.read()
+
 
 setup(
     name = 'lmdb_embeddings',

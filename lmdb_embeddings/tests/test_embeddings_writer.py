@@ -110,10 +110,8 @@ class TestEmbeddingsWriter(LmdbEmbeddingsTest):
         """
         the_vector = np.random.rand(10)
 
-        LmdbEmbeddingsWriter([
-                ('the', the_vector),
-                ('is', np.random.rand(10))
-            ],
+        LmdbEmbeddingsWriter(
+            [('the', the_vector), ('is', np.random.rand(10))],
             serializer = MsgpackSerializer.serialize
         ).write(folder_path)
 
