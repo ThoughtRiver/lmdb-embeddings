@@ -31,16 +31,18 @@ class LmdbEmbeddingsWriter:
     def __init__(self, embeddings_generator, serializer = PickleSerializer.serialize):
         """ Constructor.
 
-        :return void
+        :param iter embeddings_generator:
+        :param callable serializer:
+        :return void:
         """
         self.embeddings_generator = embeddings_generator
         self.serializer = serializer
 
     def write(self, path):
-        """ Write the database of embeddings to a given
-        file path.
+        """ Write the database of embeddings to a given file path.
 
-        :return void
+        :param str path:
+        :return void:
         """
         environment = lmdb.open(path, map_size = self._map_size)
 
@@ -51,9 +53,7 @@ class LmdbEmbeddingsWriter:
             encoded_word = word.encode(encoding = 'UTF-8')
 
             if self._word_too_long(encoded_word, environment):
-                logging.getLogger(__name__).warning(
-                    '[%s] is too long to use as an LMDB key.' % word
-                )
+                logging.getLogger(__name__).warning('[%s] is too long to use as an LMDB key.', word)
                 continue
 
             transaction.put(encoded_word, self.serializer(vector))
@@ -66,9 +66,9 @@ class LmdbEmbeddingsWriter:
 
     @staticmethod
     def _word_too_long(encoded_word, environment):
-        """ Is a given encoded word too long for the LMDB
-        environment?
+        """ Is a given encoded word too long for the LMDB environment?
 
-        :return bool
+        :param bytes encoded_word:
+        :return bool:
         """
         return len(encoded_word) > environment.max_key_size()

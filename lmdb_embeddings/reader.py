@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-
+import functools
 import lmdb
 from lmdb_embeddings import exceptions
 from lmdb_embeddings.serializers import PickleSerializer
@@ -26,16 +26,20 @@ from lmdb_embeddings.serializers import PickleSerializer
 
 class LmdbEmbeddingsReader:
 
+    MAX_READERS = 2048
+
     def __init__(self, path, unserializer = PickleSerializer.unserialize, **kwargs):
         """ Constructor.
 
-        :return void
+        :param str path:
+        :param callable unserializer:
+        :return void:
         """
         self.unserializer = unserializer
         self.environment = lmdb.open(
             path,
             readonly = True,
-            max_readers = 2048,
+            max_readers = self.MAX_READERS,
             max_spare_txns = 2,
             lock = kwargs.pop('lock', False),
             **kwargs
@@ -44,15 +48,27 @@ class LmdbEmbeddingsReader:
     def get_word_vector(self, word):
         """ Fetch a word from the LMDB database.
 
-        :raises lmdb_embeddings.exceptions.MissingWordError
-        :return np.array
+        :param str word:
+        :raises lmdb_embeddings.exceptions.MissingWordError:
+        :return np.array:
         """
         with self.environment.begin() as transaction:
             word_vector = transaction.get(word.encode(encoding = 'UTF-8'))
 
             if word_vector is None:
-                raise exceptions.MissingWordError(
-                    '"%s" does not exist in the database.' % word
-                )
+                raise exceptions.MissingWordError('"%s" does not exist in the database.' % word)
 
             return self.unserializer(word_vector)
+
+
+class LruCachedLmdbEmbeddingsReader(LmdbEmbeddingsReader):
+
+    @functools.lru_cache(maxsize = 50000)
+    def get_word_vector(self, word):
+        """ Fetch a word from the LMDB database.
+
+        :param str word:
+        :raises lmdb_embeddings.exceptions.MissingWordError:
+        :return np.array:
+        """
+        return super().get_word_vector(word)

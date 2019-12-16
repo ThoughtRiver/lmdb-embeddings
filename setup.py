@@ -3,6 +3,7 @@ import os
 from distutils.core import setup
 from setuptools import find_packages
 
+
 def get_readme():
     """ Get the package README as a string.
 
@@ -14,9 +15,10 @@ def get_readme():
     with open(readme_path) as f:
         return f.read()
 
+
 setup(
     name = 'lmdb_embeddings',
-    version = '0.2.1',
+    version = '0.3.0',
     description = 'Fast querying of word embeddings using the LMDB "Lightning" Database.',
     license = 'GNU General Public License v3.0',
     long_description = get_readme(),
@@ -30,7 +32,12 @@ setup(
         'msgpack',
         'msgpack-numpy',
         'numpy',
-        'pytest',
-        'pytest-cov',
-    ]
+    ],
+    extras_require = {
+        'develop': [
+            'flake8',
+            'pytest',
+            'pytest-cov',
+        ]
+    },
 )
