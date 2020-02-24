@@ -57,6 +57,22 @@ writer = LmdbEmbeddingsWriter(iter_embeddings()).write(OUTPUT_DATABASE_FOLDER)
 # These vectors can now be loaded with the LmdbEmbeddingsReader.
 ```
 
+## LRU Cache
+A reader with an LRU (Least Recently Used) cache is included. This will save the embeddings for the 50,000 most recently queried words and avoid . Its interface is the same as the standard reader.
+```python
+from lmdb_embeddings.reader import LruCachedLmdbEmbeddingsReader
+from lmdb_embeddings.exceptions import MissingWordError
+
+embeddings = LruCachedLmdbEmbeddingsReader('/path/to/word/vectors/eg/GoogleNews-vectors-negative300')
+
+try:
+    vector = embeddings.get_word_vector('google')
+except MissingWordError:
+    # 'google' is not in the database.
+    pass
+```
+
+
 ## Customisation
 By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach - simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
 
@@ -68,7 +84,7 @@ from lmdb_embeddings.serializers import MsgpackSerializer
 
 writer = LmdbEmbeddingsWriter(
     iter_embeddings(),
-    serializer=MsgpackSerializer.serialize
+    serializer=MsgpackSerializer().serialize
 ).write(OUTPUT_DATABASE_FOLDER)
 ```
 
@@ -78,7 +94,7 @@ from lmdb_embeddings.serializers import MsgpackSerializer
 
 reader = LmdbEmbeddingsReader(
     OUTPUT_DATABASE_FOLDER,
-    unserializer=MsgpackSerializer.unserialize
+    unserializer=MsgpackSerializer().unserialize
 )
 ```
 
