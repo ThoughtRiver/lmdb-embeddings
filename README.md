@@ -58,7 +58,7 @@ writer = LmdbEmbeddingsWriter(iter_embeddings()).write(OUTPUT_DATABASE_FOLDER)
 
 ## LRU Cache
 A reader with an LRU (Least Recently Used) cache is included. This will save the embeddings for the 50,000 most recently queried words and return the same object instead of querying the database each time. Its interface is the same as the standard reader.
-See the [functools.lru_cache](https://docs.python.org/3/library/functools.html#functools.lru_cache) in the standard library.
+See [functools.lru_cache](https://docs.python.org/3/library/functools.html#functools.lru_cache) in the standard library.
 
 ```python
 from lmdb_embeddings.reader import LruCachedLmdbEmbeddingsReader
