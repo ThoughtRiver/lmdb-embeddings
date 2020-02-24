@@ -121,8 +121,8 @@ class TestEmbeddings:
 
         LmdbEmbeddingsWriter(
             [('the', the_vector), ('is', np.random.rand(10))],
-            serializer = MsgpackSerializer.serialize
+            serializer = MsgpackSerializer().serialize
         ).write(directory_path)
 
-        reader = reader_class(directory_path, unserializer = MsgpackSerializer.unserialize)
+        reader = reader_class(directory_path, unserializer = MsgpackSerializer().unserialize)
         assert reader.get_word_vector('the').tolist() == the_vector.tolist()

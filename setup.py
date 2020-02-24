@@ -18,7 +18,7 @@ def get_readme():
 
 setup(
     name = 'lmdb_embeddings',
-    version = '0.3.0',
+    version = '0.4.0',
     description = 'Fast querying of word embeddings using the LMDB "Lightning" Database.',
     license = 'GNU General Public License v3.0',
     long_description = get_readme(),
