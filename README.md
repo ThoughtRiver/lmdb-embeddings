@@ -14,7 +14,6 @@ pip install lmdb-embeddings
 ```
 
 ## Reading vectors
-
 ```python
 from lmdb_embeddings.reader import LmdbEmbeddingsReader
 from lmdb_embeddings.exceptions import MissingWordError
@@ -58,7 +57,9 @@ writer = LmdbEmbeddingsWriter(iter_embeddings()).write(OUTPUT_DATABASE_FOLDER)
 ```
 
 ## LRU Cache
-A reader with an LRU (Least Recently Used) cache is included. This will save the embeddings for the 50,000 most recently queried words and avoid . Its interface is the same as the standard reader.
+A reader with an LRU (Least Recently Used) cache is included. This will save the embeddings for the 50,000 most recently queried words and return the same object instead of querying the database each time. Its interface is the same as the standard reader.
+See the [functools.lru_cache](https://docs.python.org/3/library/functools.html#functools.lru_cache) in the standard library.
+
 ```python
 from lmdb_embeddings.reader import LruCachedLmdbEmbeddingsReader
 from lmdb_embeddings.exceptions import MissingWordError
@@ -71,7 +72,6 @@ except MissingWordError:
     # 'google' is not in the database.
     pass
 ```
-
 
 ## Customisation
 By default, LMDB Embeddings uses pickle to serialize the vectors to bytes (optimized and pickled with the highest available protocol). However, it is very easy to use an alternative approach - simply inject the serializer and unserializer as callables into the `LmdbEmbeddingsWriter` and `LmdbEmbeddingsReader`.
